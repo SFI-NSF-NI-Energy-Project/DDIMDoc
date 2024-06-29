@@ -1,0 +1,292 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "Probono DDIM API",
+    "description" : "Data Access API for Probono API",
+    "version" : ""
+  },
+  "paths" : {
+    "/porto/report/buildings/<ID>/" : {
+      "get" : {
+        "summary" : "Building",
+        "description" : "Retrieve the details of a single building identified using its Unqiue ID.",
+        "operationId" : "building_single_get",
+        "parameters" : [
+          {
+            "name" : "ID",
+            "in" : "query",
+            "description" : "Unqiue ID for Building (retrieved from GET Buildings)",
+            "type" : "string",
+            "example" : "20"
+          }
+        ],
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Building",
+        "description" : "Not Implemented",
+        "operationId" : "building_single_post",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Building",
+        "description" : "NOT IMPLEMENTED.",
+        "operationId" : "building_single_delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    },
+    "/porto/report/buildings/" : {
+      "get" : {
+        "summary" : "Buildings",
+        "description" : "Retrieves a list of buildings for the living lab.",
+        "operationId" : "building",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "id" : {
+                  "type" : "integer",
+                  "description" : "Unique ID for object",
+                  "example" : 15
+                },
+                "uri" : {
+                  "type" : "string",
+                  "description" : "Unqiue URI from Context Ontology",
+                  "example" : "file:///Users/LecturingUCC/Desktop/PortoLL#1C"
+                },
+                "name" : {
+                  "type" : "string",
+                  "description" : "Name derived from URI",
+                  "example" : "1C"
+                }
+              }
+            },
+            "examples" : {
+              "{\n    \"buildings\": [\n        {\n            \"id\": 15,\n            \"uri\": \"file:///Users/LecturingUCC/Desktop/PortoLL#1C\",\n            \"name\": \"1C\"\n        },\n        {\n            \"id\": 16,\n            \"uri\": \"file:///Users/LecturingUCC/Desktop/PortoLL#1B\",\n            \"name\": \"1B\"\n        }\n    ]\n}" : "{}"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Buildings",
+        "description" : "NOT IMPLEMENTED\n\nIt is expected that buildings are static and added from Graph Upload at project inception.",
+        "operationId" : "buildings",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Buildings",
+        "description" : "Not Implemented.",
+        "operationId" : "buildings delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    },
+    "/porto/report/buildings/<ID>/<STARTTIME>/<ENDTIME>/" : {
+      "get" : {
+        "summary" : "Building with Measurements",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "building-with-measurements-delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Building with Measurements",
+        "description" : "NOT IMPLEMENTED.",
+        "operationId" : "building-with-measurements-post",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    },
+    "/porto/buildingkpi/" : {
+      "get" : {
+        "summary" : "Building KPI Measurement",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "kpi-measurement",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Building KPI Measurement",
+        "description" : "Set KPI for Building.",
+        "operationId" : "set-kpi",
+        "consumes" : [
+          "multipart/form-data"
+        ],
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "required" : true,
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "type" : {
+                  "type" : "string",
+                  "description" : "Type of KPI. Currently only CO2EmmissionsOperationalStage is supported."
+                },
+                "value" : {
+                  "type" : "string",
+                  "description" : "Value of KPI",
+                  "example" : "300"
+                },
+                "buildingid" : {
+                  "type" : "string",
+                  "description" : "Unique ID of building (as retreived from Building or Buildings calls)",
+                  "example" : "20"
+                },
+                "starttime" : {
+                  "type" : "string",
+                  "description" : "Start time of calculation for KPI measurement calculation and timestamp for KPI measurement.",
+                  "example" : "2024-06-01T06:35:00Z"
+                },
+                "endtime" : {
+                  "type" : "string",
+                  "description" : "End time of calculation of KPI measurement calculation.",
+                  "example" : "2024-06-01T06:40:00Z"
+                },
+                "bucket" : {
+                  "type" : "string",
+                  "description" : "InfluxDB bucket for the raw data informing the KPI measurement calculation."
+                },
+                "measurement" : {
+                  "type" : "string",
+                  "description" : "InfluxDB measurement for the raw data informing the KPI measurement calculation."
+                }
+              }
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "KPI added to graph"
+          },
+          "400" : {
+            "description" : "Addition of KPI to graph failed"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Building KPI Measurement",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "kpi-measurement-delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    },
+    "/porto/neighbourhoodkpi/" : {
+      "get" : {
+        "summary" : "Neighbourhood KPI Measurement",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "neighbourhood-kpi-measure-get",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Neighbourhood KPI Measurement",
+        "description" : "Set KPI for Building.",
+        "operationId" : "neighbourhood-kpi-measurement",
+        "consumes" : [
+          "multipart/form-data"
+        ],
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "required" : true,
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "type" : {
+                  "type" : "string",
+                  "description" : "Type of KPI. Currently only CO2EmmissionsOperationalStage is supported."
+                },
+                "value" : {
+                  "type" : "string",
+                  "description" : "Value of KPI",
+                  "example" : "300"
+                },
+                "neighbourhoodid" : {
+                  "type" : "string",
+                  "description" : "Unique ID of building (as retreived from Building or Buildings calls)",
+                  "example" : "20"
+                },
+                "starttime" : {
+                  "type" : "string",
+                  "description" : "Start time of calculation for KPI measurement calculation and timestamp for KPI measurement.",
+                  "example" : "2024-06-01T06:35:00Z"
+                },
+                "endtime" : {
+                  "type" : "string",
+                  "description" : "End time of calculation of KPI measurement calculation.",
+                  "example" : "2024-06-01T06:40:00Z"
+                },
+                "bucket" : {
+                  "type" : "string",
+                  "description" : "InfluxDB bucket for the raw data informing the KPI measurement calculation."
+                },
+                "measurement" : {
+                  "type" : "string",
+                  "description" : "InfluxDB measurement for the raw data informing the KPI measurement calculation."
+                }
+              }
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "KPI added to graph"
+          },
+          "400" : {
+            "description" : "Addition of KPI to graph failed"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Neighbourhood KPI Measurement",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "neighbourhood-kpi-measurement-delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    }
+  }
+}
