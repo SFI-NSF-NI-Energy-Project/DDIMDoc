@@ -3,7 +3,7 @@
   "info" : {
     "title" : "Probono DDIM API",
     "description" : "Data Access API for Probono API",
-    "version" : "master"
+    "version" : "main"
   },
   "paths" : {
     "/porto/report/buildings/<ID>/" : {
