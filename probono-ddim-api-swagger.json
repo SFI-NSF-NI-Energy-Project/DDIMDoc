@@ -3,7 +3,7 @@
   "info" : {
     "title" : "Probono DDIM API",
     "description" : "Data Access API for Probono API",
-    "version" : ""
+    "version" : "master"
   },
   "paths" : {
     "/porto/report/buildings/<ID>/" : {
@@ -105,11 +105,105 @@
     "/porto/report/buildings/<ID>/<STARTTIME>/<ENDTIME>/" : {
       "get" : {
         "summary" : "Building with Measurements",
-        "description" : "NOT IMPLEMENTED",
-        "operationId" : "building-with-measurements-delete",
+        "description" : "Retrieves building details with associated KPI measurements (currently only CO2).",
+        "operationId" : "building-with-measurements",
+        "parameters" : [
+          {
+            "name" : "ID",
+            "in" : "query",
+            "description" : "Unique ID for Building (from GET Buildings)",
+            "required" : true,
+            "type" : "string",
+            "example" : "20"
+          },
+          {
+            "name" : "starttime",
+            "in" : "query",
+            "description" : "Start of reporting period for which KPIs are returned.",
+            "required" : true,
+            "type" : "string",
+            "example" : "2024-06-01T06:20:00Z"
+          },
+          {
+            "name" : "endtime",
+            "in" : "query",
+            "description" : "End of reporting period for which KPI are returned.",
+            "required" : true,
+            "type" : "string",
+            "example" : "2024-06-01T06:40:00Z"
+          }
+        ],
         "responses" : {
-          "default" : {
-            "description" : "default response"
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "building" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "description" : "Unqiue ID of building",
+                      "example" : 20
+                    },
+                    "buildinguri" : {
+                      "type" : "string",
+                      "description" : "Unqiue URI identifying building in Knowledge Graph Context",
+                      "example" : "file:///Users/LecturingUCC/Desktop/PortoLL#1F"
+                    },
+                    "buildingname" : {
+                      "type" : "string",
+                      "description" : "Building name derived from URI",
+                      "example" : "1F"
+                    },
+                    "measurements" : {
+                      "type" : "object",
+                      "description" : "Array of measurements",
+                      "properties" : {
+                        "measurements" : {
+                          "type" : "object",
+                          "description" : "Individal KPI Details",
+                          "properties" : {
+                            "name" : {
+                              "type" : "string",
+                              "description" : "Name of KPI",
+                              "example" : "CO2EmissionsOperationalStage"
+                            },
+                            "unit" : {
+                              "type" : "string",
+                              "description" : "KPI unit",
+                              "example" : "ppm"
+                            },
+                            "data" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "timestamp" : {
+                                    "type" : "string",
+                                    "description" : "Time for KPI instant",
+                                    "example" : "2024-06-01T06:35:00.000000000+00:00"
+                                  },
+                                  "measure" : {
+                                    "type" : "integer",
+                                    "description" : "Value of KPI",
+                                    "example" : 300
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples" : {
+              "Sample data retreived for query" : "{\n    \"building\": {\n        \"id\": 20,\n        \"buildinguri\": \"file:///Users/LecturingUCC/Desktop/PortoLL#1F\",\n        \"buildingname\": \"1F\",\n        \"measurements\": {\n            \"measurements\": {\n                \"name\": \"CO2EmissionsOperationalStage\",\n                \"unit\": \"ppm\",\n                \"data\": [\n                    {\n                        \"timestamp\": \"2024-06-01T06:35:00.000000000+00:00\",\n                        \"measure\": 300\n                    }\n                ]\n            }\n        }\n    }\n}"
+            }
           }
         }
       },
@@ -117,6 +211,16 @@
         "summary" : "Building with Measurements",
         "description" : "NOT IMPLEMENTED.",
         "operationId" : "building-with-measurements-post",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Building with Measurements",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "building-with-measurements-delete",
         "responses" : {
           "default" : {
             "description" : "default response"
@@ -281,6 +385,134 @@
         "summary" : "Neighbourhood KPI Measurement",
         "description" : "NOT IMPLEMENTED",
         "operationId" : "neighbourhood-kpi-measurement-delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    },
+    "/porto/report/neighbourhoods/<ID>/<STARTTIME>/<ENDTIME>/" : {
+      "get" : {
+        "summary" : "Neighbourhood with Measurements",
+        "description" : "Retrieves neignbourhood details with associated KPI measurements (currently only CO2).",
+        "operationId" : "neighbourhood-with-measurements",
+        "parameters" : [
+          {
+            "name" : "ID",
+            "in" : "query",
+            "description" : "Unique ID for Neighbourhood (from GET Neighbourhoods)",
+            "required" : true,
+            "type" : "string",
+            "example" : "20"
+          },
+          {
+            "name" : "starttime",
+            "in" : "query",
+            "description" : "Start of reporting period for which KPIs are returned.",
+            "required" : true,
+            "type" : "string",
+            "example" : "2024-06-01T06:20:00Z"
+          },
+          {
+            "name" : "endtime",
+            "in" : "query",
+            "description" : "End of reporting period for which KPI are returned.",
+            "required" : true,
+            "type" : "string",
+            "example" : "2024-06-01T06:40:00Z"
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "neighbourhood" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "description" : "Unqiue ID of neighbourhood",
+                      "example" : 20
+                    },
+                    "neighbourhooduri" : {
+                      "type" : "string",
+                      "description" : "Unqiue URI identifying neighbourhood in Knowledge Graph Context",
+                      "example" : "file:///Users/LecturingUCC/Desktop/PortoLL#1F"
+                    },
+                    "neighbourhoodname" : {
+                      "type" : "string",
+                      "description" : "neigbourhood name derived from URI",
+                      "example" : "1F"
+                    },
+                    "measurements" : {
+                      "type" : "object",
+                      "description" : "Array of measurements",
+                      "properties" : {
+                        "measurements" : {
+                          "type" : "object",
+                          "description" : "Individal KPI Details",
+                          "properties" : {
+                            "name" : {
+                              "type" : "string",
+                              "description" : "Name of KPI",
+                              "example" : "CO2EmissionsOperationalStage"
+                            },
+                            "unit" : {
+                              "type" : "string",
+                              "description" : "KPI unit",
+                              "example" : "ppm"
+                            },
+                            "data" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "timestamp" : {
+                                    "type" : "string",
+                                    "description" : "Time for KPI instant",
+                                    "example" : "2024-06-01T06:35:00.000000000+00:00"
+                                  },
+                                  "measure" : {
+                                    "type" : "integer",
+                                    "description" : "Value of KPI",
+                                    "example" : 300
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples" : {
+              "Sample data retreived for query" : "{\n    \"neighbourhood\": {\n        \"id\": 28,\n        \"neighbourhooduri\": \"file:///var/lib/neo4j/import/PortoLL#Lot-1\",\n        \"neighourhoodname\": \"Lot-1\",\n        \"measurements\": {\n            \"CO2\": {\n                \"name\": \"CO2EmissionsOperationalStage\",\n                \"unit\": \"ppm\",\n                \"data\": [\n                    {\n                        \"timestamp\": \"2024-06-01T06:35:00.000000000+00:00\",\n                        \"measure\": 300\n                    }\n                ]\n            },\n            \"CO2Yearly\": {\n                \"name\": \"CO2Yearly\",\n                \"unit\": \"ppm\",\n                \"data\": [\n                    {\n                        \"timestamp\": \"2024-06-01T06:45:00Z\",\n                        \"measure\": 255.4\n                    }\n                ]\n            }\n        }\n    }\n}"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Neighbourhood with Measurements",
+        "description" : "NOT IMPLEMENTED",
+        "operationId" : "neighbourhood-with-measurements-delete",
+        "responses" : {
+          "default" : {
+            "description" : "default response"
+          }
+        }
+      }
+    },
+    "/porto/report/neigbourhoods/<ID>/<STARTTIME>/<ENDTIME>/" : {
+      "post" : {
+        "summary" : "Neighnourhood with Measurements",
+        "description" : "NOT IMPLEMENTED.",
+        "operationId" : "neighnourhood-with-measurements",
         "responses" : {
           "default" : {
             "description" : "default response"
