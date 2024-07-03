@@ -1,0 +1,29 @@
+{
+    "neighbourhood": {
+        "id": 28,
+        "neighbourhooduri": "file:///var/lib/neo4j/import/PortoLL#Lot-1",
+        "neighourhoodname": "Lot-1",
+        "measurements": {
+            "CO2": {
+                "name": "CO2EmissionsOperationalStage",
+                "unit": "ppm",
+                "data": [
+                    {
+                        "timestamp": "2024-06-01T06:35:00.000000000+00:00",
+                        "measure": 300
+                    }
+                ]
+            },
+            "CO2Yearly": {
+                "name": "CO2Yearly",
+                "unit": "ppm",
+                "data": [
+                    {
+                        "timestamp": "2024-06-01T06:45:00Z",
+                        "measure": 255.4
+                    }
+                ]
+            }
+        }
+    }
+}
